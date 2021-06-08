@@ -9,13 +9,12 @@ const authModule = {
     namespaced: true,
     state() {
         return {
-            
+            courses : []
         }   
     },
     getters: getters,
     mutations: mutations,
     actions: actions,
-    // router:router
 }
 
 export default authModule;
