@@ -12,6 +12,7 @@ const authModule = {
             student :{
                 email:"parmod@mail.com",
                 name:"Pramod",
+                username:"pramods11",
                 college:"AVCOE",
                 courses : [],
                 password:"111",
