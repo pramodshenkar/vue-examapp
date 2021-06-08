@@ -76,25 +76,37 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-
+ import axios from "axios";
 export default {
   data() {
     return {
-      response : {}
+      student :{
+                email:"parmod@mail.com",
+                name:"Pramod",
+                username:"pramods11",
+                college:"AVCOE",
+                courses : [],
+                password:"111",
+                confirmPassword:"111"
+            },
     };
   },
-  computed: {
-    ...mapState({
-      student: (state) => state.auth.student,
-    }),
-  },
   methods: {
-    ...mapActions({
-      signup: "auth/signup",
-    }),
     onSignup() {
-    this.signup()
+    axios
+            .post("http://localhost:5000/signup", this.student)
+            .then((response) => {
+              this.response = response
+              if(this.response.status==200){
+                alert("Successfully Created Account.")
+                this.$router.push('/login') 
+              }
+
+            })
+            .catch((error) => {
+              console.log(error)
+              alert("There was an error!");
+            });
   },
 },
 }
