@@ -96,7 +96,6 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import axios from "axios";
 
 export default {
   data() {
@@ -114,17 +113,10 @@ export default {
       signup: "auth/signup",
     }),
     onSignup() {
-      axios
-        .post("http://localhost:5000/signup", this.student)
-        .then((response) => (this.response = response.data))
-        .catch((error) => {
-          this.errorMessage = error.message;
-          console.error("There was an error!", error);
-        });
-        console.log(this.response)
-    },
+    this.signup()
   },
-};
+},
+}
 </script>
 
 <style>
