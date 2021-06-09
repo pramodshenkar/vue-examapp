@@ -1,15 +1,16 @@
 <template>
   <div>
     <p>Login</p>
+
     <div class="container">
-      <form @submit.prevent="created" >
+      <form @submit.prevent="onLogin">
         <div class="form-group row">
           <div class="col-sm-1-12">
             <input
-              type="email"
+              type="text"
               class="form-control"
-              name="email"
-              placeholder="Email"
+              placeholder="Username"
+              v-model="credentials.username"
             />
           </div>
         </div>
@@ -20,6 +21,7 @@
               class="form-control"
               name="password"
               placeholder="Password"
+              v-model="credentials.password"
             />
           </div>
         </div>
@@ -34,25 +36,30 @@
 </template>
 
 <script>
-import axios from "axios"
+import { mapActions, mapState } from "vuex";
+import store from "./../store/store"
 export default {
-  methods : {
-    onLogin(){
-      console.log("HEY")
-      const user = {
-        id:3,
-        email:"AA",
-        password:"AA"
-      };
-      axios.post("http://localhost:3000/users",user)
-      .then(response => {
-        console.log(response)
-      });
-
+  data() {
+    return {
+      credentials: {
+        username: "pramods11",
+        password: "111",
+      },
+    };
+  },
+  computed: {
+    ...mapState({
+      student: (state) => state.auth.student,
+    }),
+  },
+  methods: {
+    ...mapActions({
+      login : 'auth/login'
+    }),
+    onLogin() {
+      store.dispatch('auth/login',{credentials:this.credentials})
     },
-    created() {
- }
-  }
+  },
 };
 </script>
 

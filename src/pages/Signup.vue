@@ -3,6 +3,7 @@
     <p>Signup</p>
     <div class="container">
       <form @submit.prevent="onSignup">
+        <!-- email -->
         <div class="form-group row">
           <div class="col-sm-1-12">
             <input
@@ -14,6 +15,7 @@
             />
           </div>
         </div>
+        <!-- name -->
         <div class="form-group row">
           <div class="col-sm-1-12">
             <input
@@ -25,6 +27,7 @@
             />
           </div>
         </div>
+        <!-- college -->
         <div class="form-group row">
           <div class="col-sm-1-12">
             <input
@@ -36,7 +39,7 @@
             />
           </div>
         </div>
-
+        <!-- courses -->
         <div class="form-group row">
           <div class="col-sm-1-12">
             <select
@@ -58,7 +61,7 @@
             </select>
           </div>
         </div>
-
+        <!-- username -->
         <div class="form-group row">
           <div class="col-sm-1-12">
             <input
@@ -70,7 +73,7 @@
             />
           </div>
         </div>
-
+        <!-- password -->
         <div class="form-group row">
           <div class="col-sm-1-12">
             <input
@@ -82,6 +85,7 @@
             />
           </div>
         </div>
+        <!-- confirm password -->
         <div class="form-group row">
           <div class="col-sm-1-12">
             <input
@@ -93,6 +97,7 @@
             />
           </div>
         </div>
+        <!-- signup button -->
         <div class="form-group row">
           <div>
             <button type="submit" class="btn btn-primary">Signup</button>
@@ -105,6 +110,8 @@
 
 <script>
 import axios from "axios";
+import { mapActions, mapState } from "vuex";
+
 export default {
   data() {
     return {
@@ -117,10 +124,15 @@ export default {
         password: "111",
         confirmPassword: "111",
       },
-      courses: [],
       courseid: "",
     };
   },
+   computed: {
+    ...mapState({
+      courses: (state) => state.course.courses,
+      count: (state) => state.course.count,
+    })
+   },
   watch: {
     courseid() {
       this.student.courses.push(this.courseid);
@@ -130,6 +142,9 @@ export default {
     this.getCourse();
   },
   methods: {
+     ...mapActions({
+      getCourse : 'course/getCourse'
+    }),
     onSignup() {
       axios
         .post("http://localhost:5000/signup", this.student)
@@ -143,20 +158,6 @@ export default {
         .catch((error) => {
           console.log(error);
           alert("There was an error!");
-        });
-    },
-    getCourse() {
-      axios
-        .get("http://localhost:5000/courses")
-        .then((response) => {
-          this.response = response;
-          if (this.response.status == 200) {
-            this.courses = response.data.courses;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          alert("There was an error to fetch courses");
         });
     },
   },

@@ -1,0 +1,53 @@
+<template>
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-11">
+        <p>Dashboard</p>
+      </div>
+      <div class="col-md-1">
+        <button class="btn btn-info">Logout</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p>Welcome {{ student.name }}</p>  
+      </div>
+    </div>
+
+    You enrolled to course :
+    <div v-for="course in courses" :key="course.courseid">
+      <div v-for="studentcourse in student.courses" :key="studentcourse">
+        <div v-if="course.courseid == studentcourse">
+          {{ course.coursename }}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapState } from "vuex";
+// import store from "./../store/store"
+export default {
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState({
+      student: (state) => state.auth.student,
+      courses: (state) => state.course.courses,
+    }),
+  },
+  mounted() {
+    this.getCourse();
+  },
+  methods: {
+    ...mapActions({
+      getCourse: "course/getCourse",
+    }),
+  },
+};
+</script>
+
+<style>
+</style>
