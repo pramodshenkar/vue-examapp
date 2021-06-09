@@ -110,7 +110,6 @@
 
 <script>
 import axios from "axios";
-import { mapActions, mapState } from "vuex";
 
 export default {
   data() {
@@ -124,15 +123,10 @@ export default {
         password: "111",
         confirmPassword: "111",
       },
+      courses:[],
       courseid: "",
     };
   },
-   computed: {
-    ...mapState({
-      courses: (state) => state.course.courses,
-      count: (state) => state.course.count,
-    })
-   },
   watch: {
     courseid() {
       this.student.courses.push(this.courseid);
@@ -142,9 +136,9 @@ export default {
     this.getCourse();
   },
   methods: {
-     ...mapActions({
-      getCourse : 'course/getCourse'
-    }),
+    //  ...mapActions({
+    //   getCourse : 'course/getCourse'
+    // }),
     onSignup() {
       axios
         .post("http://localhost:5000/signup", this.student)
@@ -160,6 +154,19 @@ export default {
           alert("There was an error!");
         });
     },
+    getCourse() {
+    axios
+      .get("http://localhost:5000/courses")
+      .then((response) => {
+        if (response.status == 200) {
+          this.courses = response.data.courses;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("There was an error to fetch courses");
+      });
+  }
   },
 };
 </script>
