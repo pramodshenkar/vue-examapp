@@ -2,21 +2,18 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
-import authModule from './modules/auth/index'
+import studentModule from './modules/student/index'
 import courseModule from './modules/course/index'
-
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
     modules: {
-        auth: authModule,
-        course:courseModule
+        student: studentModule,
+        course:courseModule,
     },
-    plugins: [createPersistedState({
-        key: 'keyname',
-        storage: window.localStorage         
-     })]
+    plugins: [createPersistedState()],
+
    })
 
 export default store;

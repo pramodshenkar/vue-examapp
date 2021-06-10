@@ -3,11 +3,12 @@ import getters from "./getters";
 import mutations from "./mutations";
 // import router from './router'
 
-const authModule = {
+const studentModule = {
     namespaced: true,
     state() {
         return {
-            student: {},
+            student: {
+            },
         }   
     },
     getters: getters,
@@ -15,4 +16,4 @@ const authModule = {
     actions: actions,
 }
 
-export default authModule;
+export default studentModule;

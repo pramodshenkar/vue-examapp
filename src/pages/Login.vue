@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
 import store from "./../store/store"
 export default {
   data() {
@@ -53,11 +53,8 @@ export default {
   //   }),
   // },
   methods: {
-    ...mapActions({
-      login : 'auth/login'
-    }),
     onLogin() {
-      store.dispatch('auth/login',{credentials:this.credentials})
+      store.dispatch('student/login',{credentials:this.credentials})
     },
   },
 };

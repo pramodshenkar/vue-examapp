@@ -31,10 +31,7 @@ export default {
   },
   computed: {
     ...mapState({
-      student: (state) => {
-        console.log(state.auth.student)
-        state.auth.student
-        },
+      student: (state) => state.student.student ,
       courses: (state) => state.course.courses,
     }),
   },
