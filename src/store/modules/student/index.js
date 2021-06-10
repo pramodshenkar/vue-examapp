@@ -7,8 +7,7 @@ const studentModule = {
     namespaced: true,
     state() {
         return {
-            student: {
-            },
+            student: null,
         }   
     },
     getters: getters,

@@ -6,26 +6,26 @@ import store from './store/store'
 Vue.config.productionTip = false
 
 
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.requiresAuth)) {
-//     console.log("Auth needed")
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    console.log("Auth needed")
 
-//     console.log(store.state.auth.student)
-//     // if (store.state.) {
-//     //   next({
-//     //     path: '/login',
-//     //     query: { redirect: to.fullPath }
-//     //   })
-//     // } else {
-//     //   next()
-//     // }
-//   } else {
-//     console.log("Auth not needed")
-//     console.log(store.state.auth.student)
+    console.log(store.state.student.student)
+    if (store.state.student.student == null) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    console.log("Auth not needed")
+    console.log(store.state.student.student)
 
-//     next()
-//   }
-// })
+    next()
+  }
+})
 
 new Vue({
   store: store,

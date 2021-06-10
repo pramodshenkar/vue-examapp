@@ -4,5 +4,8 @@
 export default {
   setStudent(context, payload) {
        context.student = payload.student
-  }
+  },
+  clearStudentData(context) {
+    context.student = null
+},
 }

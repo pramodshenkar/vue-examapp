@@ -1,8 +1,11 @@
 <template>
   <div class="container mt-4">
     <div class="row">
-      <div class="col-md-11">
+      <div class="col-11">
         <p>Dashboard</p>
+      </div>
+      <div class="col-1">
+        <button class="btn" @click.prevent="onLogout">Logout</button>
       </div>
     </div>
     <div class="row">
@@ -41,6 +44,11 @@ export default {
   methods: {
     getStudentCourses(){
       store.dispatch('course/getCourse',{username:this.student.username})
+    },
+    onLogout(){
+      store.commit('student/clearStudentData')
+      store.commit('course/clearCoursesData')
+      this.$router.push('/login')
     }
   },
 };
