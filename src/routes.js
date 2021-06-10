@@ -28,6 +28,10 @@ const routes = [
         path: '/dashboard',
         name: 'dashboard',
         component: Dashboard,
+        // beforeEnter: (to, from, next) => {
+        //     console.log(to,from,next)
+        //   }
+        meta: { requiresAuth: true }
     },
     {
         path: '/:NotFound(.*)*',

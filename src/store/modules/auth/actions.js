@@ -4,7 +4,7 @@ import router from './../../../routes'
 export default {
   login(context, payload) {
         axios
-        .post("http://localhost:5000/login", payload.credentials)
+        .post("http://localhost:5000/student/login", payload.credentials)
         .then((response) => {
           if (response.status == 200) {
             context.state.student = response.data.student

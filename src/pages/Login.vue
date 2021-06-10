@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions } from "vuex";
 import store from "./../store/store"
 export default {
   data() {
@@ -47,11 +47,11 @@ export default {
       },
     };
   },
-  computed: {
-    ...mapState({
-      student: (state) => state.auth.student,
-    }),
-  },
+  // computed: {
+  //   ...mapState({
+  //     learner: (state) => state.auth.learner,
+  //   }),
+  // },
   methods: {
     ...mapActions({
       login : 'auth/login'

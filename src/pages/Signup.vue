@@ -141,7 +141,7 @@ export default {
     // }),
     onSignup() {
       axios
-        .post("http://localhost:5000/signup", this.student)
+        .post("http://localhost:5000/student/signup", this.student)
         .then((response) => {
           this.response = response;
           if (this.response.status == 200) {

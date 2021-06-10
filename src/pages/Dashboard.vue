@@ -4,9 +4,6 @@
       <div class="col-md-11">
         <p>Dashboard</p>
       </div>
-      <div class="col-md-1">
-        <button class="btn btn-info">Logout</button>
-      </div>
     </div>
     <div class="row">
       <div class="col-md-12">
@@ -26,25 +23,28 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-// import store from "./../store/store"
+import { mapState } from "vuex";
+import store from "./../store/store"
 export default {
   data() {
     return {};
   },
   computed: {
     ...mapState({
-      student: (state) => state.auth.student,
+      student: (state) => {
+        console.log(state.auth.student)
+        state.auth.student
+        },
       courses: (state) => state.course.courses,
     }),
   },
   mounted() {
-    this.getCourse();
+    this.getStudentCourses()
   },
   methods: {
-    ...mapActions({
-      getCourse: "course/getCourse",
-    }),
+    getStudentCourses(){
+      store.dispatch('course/getCourse',{username:this.student.username})
+    }
   },
 };
 </script>

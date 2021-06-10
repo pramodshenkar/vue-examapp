@@ -6,7 +6,6 @@ import authModule from './modules/auth/index'
 import courseModule from './modules/course/index'
 
 
-
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
