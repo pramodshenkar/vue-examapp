@@ -8,14 +8,8 @@ Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    console.log("Auth needed")
-
-    console.log(store.state.student.student)
     if (store.state.student.student == null) {
-      next({
-        path: '/login',
-        query: { redirect: to.fullPath }
-      })
+      next({ name: 'Login' })
     } else {
       next()
     }

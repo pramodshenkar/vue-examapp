@@ -16,20 +16,20 @@ export default {
         alert("There was an error to fetch courses");
       });
   },
-  async getReport(context,payload) {
-    axios
-      .post("http://localhost:5000/report",{username :payload.username})
-      .then((response) => {
-        if (response.status == 200) {
-          context.commit('setReport',{
-            report : response.data.report
-          })
+  // async getReport(context,payload) {
+  //   axios
+  //     .post("http://localhost:5000/report",{username :payload.username})
+  //     .then((response) => {
+  //       if (response.status == 200) {
+  //         context.commit('setReport',{
+  //           report : response.data.report
+  //         })
 
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("There was an error to fetch courses");
-      });
-  }
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       alert("There was an error to fetch courses");
+  //     });
+  // }
 }
