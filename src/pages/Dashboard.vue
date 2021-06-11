@@ -20,7 +20,6 @@
           <div class="card">
             <h5 class="card-header">{{course.coursename}}</h5>
             <div class="card-body">
-              <!-- <h5 class="card-title">Special title treatment</h5> -->
               <p class="card-text">
                 Remaining Test Count : 3
               </p>
@@ -30,6 +29,9 @@
         </div>
       </div>
     </div>
+    <div>
+      {{report}}
+    </div>
   </div>
 </template>
 
@@ -38,20 +40,26 @@ import { mapState } from "vuex";
 import store from "./../store/store";
 export default {
   data() {
-    return {};
+    return {
+    };
   },
   computed: {
     ...mapState({
       student: (state) => state.student.student,
       courses: (state) => state.course.courses,
+      report: (state) => state.course.report,
     }),
   },
   mounted() {
-    this.getStudentCourses();
+    this.getStudentCourses()
+    this.getStudentReport()
   },
   methods: {
     getStudentCourses() {
       store.dispatch("course/getCourse", { username: this.student.username });
+    },
+    getStudentReport(){
+       store.dispatch("course/getReport", { username: this.student.username });
     },
     onLogout() {
       store.commit("student/clearStudentData");
