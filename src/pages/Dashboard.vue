@@ -15,22 +15,37 @@
     </div>
 
     <div class="row">
-      <div v-for="course in courses" :key="course.courseid">
+      <div v-for="course in report" :key="course.courseid">
         <div class="col">
           <div class="card">
-            <h5 class="card-header">{{course.coursename}}</h5>
+            <h5 class="card-header">{{ course.courseid }}</h5>
             <div class="card-body">
-              <p class="card-text">
-                Remaining Test Count : 3
-              </p>
-              <a href="#" class="btn btn-primary">Start Test</a>
+              <div class="card-text">
+                <div v-for="exam in course.examreports" :key="exam.examid">
+                  <div class="row p-2">
+                    <div class="col">
+                      {{ exam.examid }}
+                    </div>
+                    <div class="col">
+                      <button
+                        href="#"
+                        class="btn btn-info"
+                        :disabled="exam.issubmitted"
+                      >
+                        <div v-if="exam.issubmitted">Completed</div>
+                        <div v-else>Start Test</div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div>
-      {{report}}
+      <!-- {{report}} -->
     </div>
   </div>
 </template>
@@ -40,8 +55,7 @@ import { mapState } from "vuex";
 import store from "./../store/store";
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
     ...mapState({
@@ -51,15 +65,15 @@ export default {
     }),
   },
   mounted() {
-    this.getStudentCourses()
-    this.getStudentReport()
+    this.getStudentCourses();
+    this.getStudentReport();
   },
   methods: {
     getStudentCourses() {
       store.dispatch("course/getCourse", { username: this.student.username });
     },
-    getStudentReport(){
-       store.dispatch("course/getReport", { username: this.student.username });
+    getStudentReport() {
+      store.dispatch("course/getReport", { username: this.student.username });
     },
     onLogout() {
       store.commit("student/clearStudentData");

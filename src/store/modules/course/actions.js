@@ -21,10 +21,6 @@ export default {
       .post("http://localhost:5000/report",{username :payload.username})
       .then((response) => {
         if (response.status == 200) {
-          console.log("call getReport in Action")
-          // context.commit('setCourses',{
-          //   report : response.data.report[0]
-          // })
           context.commit('setReport',{
             report : response.data.report
           })
