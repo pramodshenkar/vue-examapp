@@ -5,6 +5,7 @@ import NotFound from './pages/NotFound.vue'
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from './store/store'
 
 Vue.use(VueRouter)
 
@@ -12,12 +13,22 @@ const routes = [
     {
         path: '/',
         name: 'Home',
-        redirect:"/login" ,
+        redirect: "/login",
     },
     {
         path: '/login',
         name: 'login',
         component: Login,
+        beforeEnter: (to, from, next) => {
+            if (store.state.student.student != null) {
+                next({
+                    path: '/dashboard',
+                    query: { redirect: to.fullPath }
+                })
+            } else {
+                next()
+            }
+        }
     },
     {
         path: '/signup',
