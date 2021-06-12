@@ -1,11 +1,23 @@
 <template>
   <div>
-    <p>Exam dashboard</p>
-    <p>{{course.coursename}}</p>
-    <div>
-      {{course.exams}}
+        <p>{{course.coursename}}</p>
+        {{course}}
+
+      <div class="row">
+      <div v-for="course in course.exams" :key="course.courseid">
+        <div class="col">
+          <div class="card">
+            <h5 class="card-header">{{ course }}</h5>
+            <div class="card-body">
+              <div class="card-text">
+                 <router-link class="nav-item nav-link" :to="`/examdashboard/${course.courseid}`"><button class="btn btn-info">Go to course</button></router-link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -36,7 +48,7 @@ export default {
         console.log(error);
         alert("There was an error to fetch courses");
       });
-    }
+    },
   },
 };
 </script>
