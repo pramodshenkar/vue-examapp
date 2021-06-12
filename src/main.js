@@ -14,9 +14,6 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    console.log("Auth not needed")
-    console.log(store.state.student.student)
-
     next()
   }
 })

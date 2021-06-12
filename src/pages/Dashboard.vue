@@ -21,7 +21,7 @@
             <h5 class="card-header">{{ course.courseid }}</h5>
             <div class="card-body">
               <div class="card-text">
-                 <router-link class="nav-item nav-link" to="/examdashboard"><button class="btn btn-info">Go to course</button></router-link>
+                 <router-link class="nav-item nav-link" :to="`/examdashboard/${course.courseid}`"><button class="btn btn-info">Go to course</button></router-link>
               </div>
             </div>
           </div>

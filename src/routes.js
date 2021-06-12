@@ -1,7 +1,7 @@
 import Login from './pages/Login.vue'
 import Signup from './pages/Signup.vue'
 import Dashboard from './pages/Dashboard.vue'
-import ExamDashboard from './pages/ExamDashboard.vue'
+import ExamDashboard from './pages/CourseDashboard.vue'
 import NotFound from './pages/NotFound.vue'
 
 import Vue from 'vue'
@@ -40,12 +40,11 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
-        path: '/examdashboard',
+        path: '/examdashboard/:courseid',
         name: 'ExamDashboard',
         component: ExamDashboard,
         meta: { requiresAuth: true },
         beforeEnter: (to, from, next) => {
-            console.log(from.name)
             if (from.name == 'Dashboard') {
                 next()
             } else {
