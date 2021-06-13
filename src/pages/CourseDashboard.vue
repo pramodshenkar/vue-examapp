@@ -6,9 +6,9 @@
 
     <!-- <p>{{ course.exams.length }}</p> -->
 
-    <!-- <p v-for="report in reports" :key="report.examid">
-      {{ report }}
-    </p> -->
+    <p v-for="report in reports" :key="report.examid">
+      <!-- {{ report }} -->
+    </p>
 
     <div class="row">
       <div v-for="report in reports" :key="report.examid">
@@ -19,13 +19,14 @@
               <div class="card-title">
               {{ attemptCounts(report.attemptreports) }}
               </div>
+              <p>{{report}}</p>
               <div class="card-text">
-                <!-- <router-link
+                <router-link
                   class="nav-item nav-link"
-                  :to="`/examdashboard/${course.courseid}`"
-                > -->
-                <button :disabled="attemptCounts(report.attemptreports)==0" class="btn btn-info">Start Exam</button>
-                <!-- </router-link> -->
+                  :to="`/exam/${report.examid}`"
+                >
+                <button @click="onStartExam(report)" :disabled="attemptCounts(report.attemptreports)==0" class="btn btn-info">Start Exam</button>
+                </router-link>
               </div>
             </div>
           </div>
@@ -37,7 +38,7 @@
 
 <script>
 import { mapState } from "vuex";
-// import store from "./../store/store";
+import store from "./../store/store";
 import axios from "axios";
 export default {
   data() {
@@ -69,23 +70,17 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             this.course = response.data.course;
-            console.log("In api call", this.course);
           }
         })
         .catch((error) => {
           console.log(error);
           alert("There was an error to fetch courses");
         });
-      console.log("calling getCourseInfo");
-
-      console.log("after api call", this.course);
     },
 
     getAllExamReports() {
-      console.log(this.course.exams);
       for (let i = 0; i < this.course.exams.length; i++) {
         const element = this.course.exams[i];
-        console.log(element);
         this.getExamReport(element);
       }
     },
@@ -99,8 +94,6 @@ export default {
         })
         .then((response) => {
           if (response.status == 200) {
-            console.log(this.report);
-            console.log(response.data.examreport);
             this.reports.push(response.data.examreport);
           }
         })
@@ -111,7 +104,6 @@ export default {
     },
 
     attemptCounts(attemptreport) {
-      console.log(attemptreport)
       var count=0;
       for (let i = 0; i < attemptreport.length; i++) {
         const element = attemptreport[i];
@@ -121,6 +113,12 @@ export default {
       }
       return count;
     },
+    onStartExam(report){
+      console.log("Report is  :", report)
+      console.log("Starting exam")
+      store.commit('report/setReport',{report:report})
+
+    }
   },
 };
 </script>

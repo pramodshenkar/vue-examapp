@@ -1,7 +1,8 @@
 import Login from './pages/Login.vue'
 import Signup from './pages/Signup.vue'
 import Dashboard from './pages/Dashboard.vue'
-import ExamDashboard from './pages/CourseDashboard.vue'
+import CourseDashboard from './pages/CourseDashboard.vue'
+import ExamScreen from './pages/ExamScreen.vue'
 import NotFound from './pages/NotFound.vue'
 
 import Vue from 'vue'
@@ -37,18 +38,39 @@ const routes = [
         path: '/dashboard',
         name: 'Dashboard',
         component: Dashboard,
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true },
+        children : [
+            {
+                path: '/',
+                name: 'Dashboard',
+                component: Dashboard,
+                meta: { requiresAuth: true },
+            }
+        ]
     },
     {
-        path: '/examdashboard/:courseid',
-        name: 'ExamDashboard',
-        component: ExamDashboard,
+        path: '/coursedashboard/:courseid',
+        name: 'CourseDashboard',
+        component: CourseDashboard,
         meta: { requiresAuth: true },
         beforeEnter: (to, from, next) => {
             if (from.name == 'Dashboard') {
                 next()
             } else {
                 next({ name: 'Dashboard', })
+            }
+        }
+    },
+    {
+        path: '/exam/:examid',
+        name: 'ExamScreen',
+        component: ExamScreen,
+        meta: { requiresAuth: true },
+        beforeEnter: (to, from, next) => {
+            if (from.name == 'CourseDashboard') {
+                next()
+            } else {
+                next({ name: 'CourseDashboard', })
             }
         }
     },

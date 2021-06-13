@@ -2,12 +2,11 @@ import actions from "./actions";
 import getters from "./getters";
 import mutations from "./mutations";
 
-const courseModule = {
+const reportModule = {
     namespaced: true,
     state() {
         return {
-            courses:[],
-            currentCourse : ""
+            report:{},
         }   
     },
     getters: getters,
@@ -15,4 +14,4 @@ const courseModule = {
     actions: actions,
 }
 
-export default courseModule;
+export default reportModule;
