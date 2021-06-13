@@ -17,9 +17,8 @@
             <h5 class="card-header">{{ report.examid }}</h5>
             <div class="card-body">
               <div class="card-title">
-              {{ attemptCounts(report.attemptreports) }}
+                Your {{ attemptCounts(report.attemptreports) }} Attempts Remained
               </div>
-              <p>{{report}}</p>
               <div class="card-text">
                 <router-link
                   class="nav-item nav-link"

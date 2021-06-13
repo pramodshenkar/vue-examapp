@@ -21,7 +21,14 @@
             <h5 class="card-header">{{ course.courseid }}</h5>
             <div class="card-body">
               <div class="card-text">
-                 <router-link class="nav-item nav-link" :to="`/coursedashboard/${course.courseid}`"><button class="btn btn-info">Go to course</button></router-link>
+                <!-- <router-link class="nav-item nav-link" :to="`/coursedashboard/${course.courseid}`"><button class="btn btn-info">Go to course</button></router-link> -->
+                <router-link
+                  class="nav-item nav-link"
+                  :to="`/coursedashboard/${course.courseid}`"
+                  ><button @click="onGotoCourse(course)" class="btn btn-info">
+                    Go to course
+                  </button></router-link
+                >
               </div>
             </div>
           </div>
@@ -51,6 +58,9 @@ export default {
   methods: {
     getStudentCourses() {
       store.dispatch("course/getCourse", { username: this.student.username });
+    },
+    onGotoCourse(course) {
+      store.commit("course/setCurrentCourse", { currentCourse: course });
     },
     onLogout() {
       store.commit("student/clearStudentData");

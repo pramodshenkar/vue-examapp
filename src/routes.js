@@ -3,6 +3,7 @@ import Signup from './pages/Signup.vue'
 import Dashboard from './pages/Dashboard.vue'
 import CourseDashboard from './pages/CourseDashboard.vue'
 import ExamScreen from './pages/ExamScreen.vue'
+
 import NotFound from './pages/NotFound.vue'
 
 import Vue from 'vue'
@@ -35,18 +36,10 @@ const routes = [
         component: Signup,
     },
     {
-        path: '/dashboard',
+        path: '/dashboard/',
         name: 'Dashboard',
         component: Dashboard,
-        meta: { requiresAuth: true },
-        children : [
-            {
-                path: '/',
-                name: 'Dashboard',
-                component: Dashboard,
-                meta: { requiresAuth: true },
-            }
-        ]
+        meta: { requiresAuth: true }, 
     },
     {
         path: '/coursedashboard/:courseid',

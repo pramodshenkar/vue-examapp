@@ -7,7 +7,7 @@ const courseModule = {
     state() {
         return {
             courses:[],
-            currentCourse : ""
+            currentCourse : {}
         }   
     },
     getters: getters,
