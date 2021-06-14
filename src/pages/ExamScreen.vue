@@ -8,8 +8,8 @@
             Question {{ i + 1 }}
           </button>
         </div>
-        <hr>
-        <div><button class="btn btn-dark">End Exam</button></div>
+        <hr />
+        <div><button @click="onEndExamClicked" class="btn btn-dark">End Exam</button></div>
       </div>
       <div class="col-8 ml-3">
         <div class="card">
@@ -121,13 +121,16 @@ export default {
           alert("There was an error to fetch courses");
         });
     },
+    onEndExamClicked() {
+       this.$router.go(-1);
+    },
+
     onPreviousClicked() {
       if (this.currentQuestionNumber != 0) {
         this.currentQuestionNumber = this.currentQuestionNumber - 1;
       } else {
         this.currentQuestionNumber = this.questions.length - 1;
       }
-      console.log(this.currentQuestionNumber);
       this.getQuestion(this.questions[this.currentQuestionNumber]);
       this.answer = false;
     },
@@ -137,12 +140,10 @@ export default {
       } else {
         this.currentQuestionNumber = 0;
       }
-      console.log(this.currentQuestionNumber);
       this.getQuestion(this.questions[this.currentQuestionNumber]);
       this.answer = false;
     },
     onSubmitClicked() {
-      console.log("Submitting Answer");
       this.onNextClicked();
     },
   },

@@ -113,8 +113,6 @@ export default {
       return count;
     },
     onStartExam(report){
-      console.log("Report is  :", report)
-      console.log("Starting exam")
       store.commit('report/setReport',{report:report})
 
     }
