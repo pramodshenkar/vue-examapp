@@ -9,7 +9,11 @@
           </button>
         </div>
         <hr />
-        <div><button @click="onEndExamClicked" class="btn btn-dark">End Exam</button></div>
+        <div>
+          <button @click="onEndExamClicked" class="btn btn-dark">
+            End Exam
+          </button>
+        </div>
       </div>
       <div class="col-8 ml-3">
         <div class="card">
@@ -73,6 +77,7 @@ export default {
   },
   computed: {
     ...mapState({
+      student: (state) => state.student.student,
       report: (state) => state.report.report,
       currentCourse: (state) => state.course.currentCourse,
     }),
@@ -122,7 +127,22 @@ export default {
         });
     },
     onEndExamClicked() {
-       this.$router.go(-1);
+      axios
+        .post("http://localhost:5000/endexam", {
+          studentid: this.student.studentid,
+          courseid: this.currentCourse.courseid,
+          examid: this.$route.params.examid,
+        })
+        .then((response) => {
+          if (response.status == 200) {
+            console.log("exam ended");
+            this.$router.go(-1);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("There was an error to fetch courses");
+        });
     },
 
     onPreviousClicked() {
