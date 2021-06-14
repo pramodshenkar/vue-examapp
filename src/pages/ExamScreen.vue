@@ -33,7 +33,7 @@
                       type="radio"
                       class="form-check-input"
                       name="option"
-                      :id="option.optionid"
+                      :value="option.optionid"
                       v-model="answer"
                     />
                     {{ option.optiontext }}
@@ -46,7 +46,10 @@
                 <button @click="onPreviousClicked" class="btn btn-secondary">
                   Previous
                 </button>
-                <button @click="onSubmitClicked" class="btn btn-danger">
+                <button
+                  @click="onSubmitClicked(currentQuestion.questionid)"
+                  class="btn btn-danger"
+                >
                   Submit Answer
                 </button>
                 <button @click="onNextClicked" class="btn btn-secondary">
@@ -91,6 +94,22 @@ export default {
         console.log(error.message);
       });
   },
+  beforeRouteLeave(to, from, next) {
+    const answer = window.confirm(
+      "Do you really want to leave? Exam will be automatically get submitted!"
+    );
+    if (answer) {
+      this.onEndExamClicked()
+        .then(() => {
+          next();
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    } else {
+      next(false);
+    }
+  },
   methods: {
     async getQuestionsList() {
       await axios
@@ -118,7 +137,6 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             this.currentQuestion = response.data.question;
-            // this.reports.push(response.data.examreport);
           }
         })
         .catch((error) => {
@@ -126,8 +144,31 @@ export default {
           alert("There was an error to fetch courses");
         });
     },
-    onEndExamClicked() {
+    onSubmitAnswer(questionid) {
       axios
+        .post("http://localhost:5000/submitanswer", {
+          studentid: this.student.studentid,
+          courseid: this.currentCourse.courseid,
+          examid: this.$route.params.examid,
+          questionid: questionid,
+          answerid: this.answer,
+        })
+        .then((response) => {
+          if (response.status == 200) {
+            if (response.data.SubmitAnswer) {
+              console.log("Answer Saved");
+            } else {
+              console.log("Cant save answer");
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("There was an error to fetch courses");
+        });
+    },
+    async onEndExamClicked() {
+      await axios
         .post("http://localhost:5000/endexam", {
           studentid: this.student.studentid,
           courseid: this.currentCourse.courseid,
@@ -163,7 +204,8 @@ export default {
       this.getQuestion(this.questions[this.currentQuestionNumber]);
       this.answer = false;
     },
-    onSubmitClicked() {
+    onSubmitClicked(questionid) {
+      this.onSubmitAnswer(questionid);
       this.onNextClicked();
     },
   },

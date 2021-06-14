@@ -1,30 +1,33 @@
 <template>
   <div>
-    <!-- <nav class="navbar navbar-expand navbar-dark bg-dark  justify-content-between">
-          <div class="nav navbar-nav">
-              <router-link class="nav-item nav-link" to="Signup">Signup</router-link>
-              <router-link class="nav-item nav-link" to="Login">Login</router-link>
-              
-          </div>
-      </nav> -->
-
-      <!-- {{student.studentid == ""}} -->
-
     <nav class="navbar navbar-expand navbar-dark bg-dark">
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <ul v-if='student' class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item nav-link">Welcome {{student.name}}</li>
+        <ul v-if="student" class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item nav-link">
+            <router-link class="nav-item nav-link" to="/dashboard"
+              >Welcome {{ student.name }}</router-link
+            >
+          </li>
         </ul>
         <ul v-else class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <router-link class="nav-item nav-link" to="Signup">Signup</router-link>
+            <router-link class="nav-item nav-link" to="Signup"
+              >Signup</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link class="nav-item nav-link" to="Login">Login</router-link>
+            <router-link class="nav-item nav-link" to="Login"
+              >Login</router-link
+            >
           </li>
         </ul>
-        
-        <button v-if='student' @click.prevent="onLogout" class="btn btn-secondary my-2 my-sm-0" type="submit">
+
+        <button
+          v-if="student"
+          @click.prevent="onLogout"
+          class="btn btn-secondary my-2 my-sm-0"
+          type="submit"
+        >
           Logout
         </button>
       </div>
@@ -34,23 +37,23 @@
 
 <script>
 import { mapState } from "vuex";
-import store from './../store/store'
+import store from "./../store/store";
 export default {
-    computed: {
+  computed: {
     ...mapState({
       student: (state) => state.student.student,
     }),
   },
-  methods :{
-      onLogout() {
+  methods: {
+    onLogout() {
       store.commit("student/clearStudent");
       store.commit("course/clearCourses");
       store.commit("course/clearcurrentCourse");
       store.commit("report/clearReport");
       this.$router.push("/login");
-      console.log(this.student)
+      console.log(this.student);
     },
-  }
+  },
 };
 </script>
 
