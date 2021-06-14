@@ -4,9 +4,6 @@
       <div class="col">
         <p>Dashboard</p>
       </div>
-      <div class="col flex-row-reverse">
-        <button class="btn" @click.prevent="onLogout">Logout</button>
-      </div>
     </div>
     <div class="row">
       <div class="col-md-12">
@@ -62,11 +59,7 @@ export default {
     onGotoCourse(course) {
       store.commit("course/setCurrentCourse", { currentCourse: course });
     },
-    onLogout() {
-      store.commit("student/clearStudentData");
-      store.commit("course/clearCoursesData");
-      this.$router.push("/login");
-    },
+    
   },
 };
 </script>

@@ -4,30 +4,32 @@
     <div class="row">
       <div class="col-3">
         <div v-for="(question, i) in questions" :key="question">
-          <div>
-            <button @click="getQuestion(question)" class="btn btn-info m-1">
-              Question {{ i + 1 }}
-            </button>
-          </div>
+          <button @click="getQuestion(question)" class="btn btn-info m-1">
+            Question {{ i + 1 }}
+          </button>
         </div>
+        <hr>
+        <div><button class="btn btn-dark">End Exam</button></div>
       </div>
       <div class="col-8 ml-3">
         <div class="card">
-          <div class="card-header">{{ currentQuestion.questiontext }}</div>
+          <div class="card-header">
+            Q{{ currentQuestionNumber + 1 }}. {{ currentQuestion.questiontext }}
+          </div>
           <div class="card-body">
-            <!-- <h5 class="card-title">Special title treatment</h5> -->
-            <div class="card-text">
+            <div class="card-text ml-4">
               <div
+                class="row"
                 v-for="option in currentQuestion.options"
                 :key="option.optionid"
               >
-                <div class="form-check">
+                <div class="form-check m-1">
                   <label class="form-check-label">
                     <input
                       type="radio"
                       class="form-check-input"
                       name="option"
-                      :id=option.optionid
+                      :id="option.optionid"
                       v-model="answer"
                     />
                     {{ option.optiontext }}
@@ -35,11 +37,19 @@
                 </div>
               </div>
             </div>
-            <button @click="onPreviousClicked" class="btn btn-warning">
-              Previous
-            </button>
-            <button @click="onSubmitClicked" class="btn btn-primary">Submit Answer</button>
-            <button @click="onNextClicked" class="btn btn-warning">Next</button>
+            <div class="row p-3">
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <button @click="onPreviousClicked" class="btn btn-secondary">
+                  Previous
+                </button>
+                <button @click="onSubmitClicked" class="btn btn-danger">
+                  Submit Answer
+                </button>
+                <button @click="onNextClicked" class="btn btn-secondary">
+                  Next
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -58,7 +68,7 @@ export default {
       questions: [],
       currentQuestion: {},
       currentQuestionNumber: 0,
-      answer:''
+      answer: "",
     };
   },
   computed: {
@@ -119,7 +129,7 @@ export default {
       }
       console.log(this.currentQuestionNumber);
       this.getQuestion(this.questions[this.currentQuestionNumber]);
-      this.answer = false
+      this.answer = false;
     },
     onNextClicked() {
       if (this.currentQuestionNumber != this.questions.length - 1) {
@@ -129,14 +139,12 @@ export default {
       }
       console.log(this.currentQuestionNumber);
       this.getQuestion(this.questions[this.currentQuestionNumber]);
-            this.answer = false
-
+      this.answer = false;
     },
-    onSubmitClicked(){
-      console.log("Submitting Answer")
-      this.onNextClicked()
-      
-    }
+    onSubmitClicked() {
+      console.log("Submitting Answer");
+      this.onNextClicked();
+    },
   },
 };
 </script>
