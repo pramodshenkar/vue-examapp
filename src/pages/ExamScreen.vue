@@ -153,13 +153,14 @@ export default {
         });
     },
     onSubmitAnswer(questionid) {
+      // console.log("studentid : ",this.student.studentid,"\ncourseid : ",this.currentCourse.courseid,"\nexamid :",this.$route.params.examid,"\nquestionid : ",questionid,"\nanswer : ",this.answerArray[this.currentQuestionNumber])
       axios
         .post("http://localhost:5000/submitanswer", {
           studentid: this.student.studentid,
           courseid: this.currentCourse.courseid,
           examid: this.$route.params.examid,
           questionid: questionid,
-          answerid: this.answer,
+          answerid: this.answerArray[this.currentQuestionNumber],
         })
         .then((response) => {
           if (response.status == 200) {
