@@ -1,6 +1,12 @@
 <template>
-  <div>
+  <div class="container mt-5">
     <div class="row">
+      <h5>Hey {{ student.name }} !</h5>
+    </div>
+    <div class="row mb-4">
+      <p>You are elected for the following exams as per your course</p>
+    </div>
+    <div class="row pt-4">
       <div v-for="report in reports" :key="report.examid">
         <div class="col">
           <div class="card">
@@ -125,7 +131,7 @@ export default {
 
     getExamName(examid) {
       for (let i = 0; i < this.exams.length; i++) {
-        if(examid ==this.exams[i].examid) {
+        if (examid == this.exams[i].examid) {
           return this.exams[i].examname;
         }
       }

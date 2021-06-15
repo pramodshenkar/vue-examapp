@@ -1,60 +1,58 @@
 <template>
   <div>
-    <div class="row"></div>
-    <div class="row">
-      <div class="col-3">
+    <div>
+      <!-- The sidebar -->
+      <div class="sidebar">
         <div v-for="(question, i) in questions" :key="question">
-          <button @click="getQuestion(question, i)" class="btn btn-info m-1">
-            Question {{ i + 1 }}
-          </button>
+          <a @click="getQuestion(question, i)"> Question {{ i + 1 }} </a>
         </div>
-        <hr />
-        <div>
-          <button @click="$router.push('/dashboard')" class="btn btn-dark">
-            End Exam
-          </button>
-        </div>
+        <a class="active btn-info" @click="$router.push('/dashboard')"> End Exam </a>
       </div>
-      <div class="col-8 ml-3">
-        <div class="card">
-          <div class="card-header">
-            Q{{ currentQuestionNumber + 1 }}. {{ currentQuestion.questiontext }}
-          </div>
-          <div class="card-body">
-            <div class="card-text ml-4">
-              <div
-                class="row"
-                v-for="option in currentQuestion.options"
-                :key="option.optionid"
-              >
-                <div class="form-check m-1">
-                  <label class="form-check-label">
-                    <input
-                      type="radio"
-                      class="form-check-input"
-                      name="option"
-                      :value="option.optionid"
-                      v-model="answerArray[currentQuestionNumber]"
-                    />
-                    {{ option.optiontext }}
-                  </label>
+
+      <!-- Page content -->
+      <div class="content">
+        <div class="col-*">
+          <div class="card">
+            <div class="card-header">
+              Q{{ currentQuestionNumber + 1 }}.
+              {{ currentQuestion.questiontext }}
+            </div>
+            <div class="card-body">
+              <div class="card-text ml-4">
+                <div
+                  class="row"
+                  v-for="option in currentQuestion.options"
+                  :key="option.optionid"
+                >
+                  <div class="form-check m-1">
+                    <label class="form-check-label">
+                      <input
+                        type="radio"
+                        class="form-check-input"
+                        name="option"
+                        :value="option.optionid"
+                        v-model="answerArray[currentQuestionNumber]"
+                      />
+                      {{ option.optiontext }}
+                    </label>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="row p-3">
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button @click="onPreviousClicked" class="btn btn-secondary">
-                  Previous
-                </button>
-                <button
-                  @click="onSubmitClicked(currentQuestion.questionid)"
-                  class="btn btn-danger"
-                >
-                  Submit Answer
-                </button>
-                <button @click="onNextClicked" class="btn btn-secondary">
-                  Next
-                </button>
+              <div class="row p-3">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button @click="onPreviousClicked" class="btn btn-primary">
+                    Previous
+                  </button>
+                  <button
+                    @click="onSubmitClicked(currentQuestion.questionid)"
+                    class="btn btn-secondary"
+                  >
+                    Submit Answer
+                  </button>
+                  <button @click="onNextClicked" class="btn btn-primary">
+                    Next
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -106,7 +104,7 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     const answer = window.confirm(
-      "Do you really want to leave? Exam will be automatically get submitted!"
+      "Do you really want to leave? Exam will be get submitted!"
     );
     if (answer) {
       this.onEndExamClicked()
@@ -225,5 +223,35 @@ export default {
 };
 </script>
 
-<style>
+<style scopped>
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #cbd4d3;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.sidebar a.active {
+  color: white;
+}
+
+.sidebar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+div.content {
+  margin-left: 200px;
+  padding: 5% 5%;
+}
 </style>

@@ -2,12 +2,12 @@
   <div class="container mt-4">
     <div class="row">
       <div class="col">
-        <p>Dashboard</p>
+        <h1><b>Dashboard</b></h1>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <p>Welcome {{ student.name }}</p>
+    <div class="row mt-4">
+      <div class="col-md-12 mb-4">
+        <p>Here are courses you picked!!!</p>
       </div>
     </div>
     <div class="row">
@@ -16,7 +16,7 @@
     <div class="row">
       <div v-for="course in courses" :key="course.courseid">
         <div class="col">
-          <div class="card">
+          <div class="card ">
             <h5 class="card-header">{{ course.coursename }}</h5>
             <div class="card-body">
               <div class="card-text">

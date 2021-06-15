@@ -5,7 +5,7 @@
         <ul v-if="student" class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item nav-link">
             <router-link class="nav-item nav-link" to="/dashboard"
-              >Welcome {{ student.name }}</router-link
+              ><b>Welcome {{ student.name }}</b></router-link
             >
           </li>
         </ul>
@@ -25,7 +25,7 @@
         <button
           v-if="student"
           @click.prevent="onLogout"
-          class="btn btn-secondary my-2 my-sm-0"
+          class="btn btn-sm btn-secondary"
           type="submit"
         >
           Logout
