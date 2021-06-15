@@ -42,7 +42,7 @@ const routes = [
         meta: { requiresAuth: true }, 
     },
     {
-        path: '/coursedashboard/:courseid',
+        path: '/course/:courseid',
         name: 'CourseDashboard',
         component: CourseDashboard,
         meta: { requiresAuth: true },

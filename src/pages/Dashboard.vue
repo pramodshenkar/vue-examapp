@@ -20,10 +20,10 @@
             <h5 class="card-header">{{ course.coursename }}</h5>
             <div class="card-body">
               <div class="card-text">
-                <!-- <router-link class="nav-item nav-link" :to="`/coursedashboard/${course.courseid}`"><button class="btn btn-info">Go to course</button></router-link> -->
+                <!-- <router-link class="nav-item nav-link" :to="`/course/${course.courseid}`"><button class="btn btn-info">Go to course</button></router-link> -->
                 <router-link
                   class="nav-item nav-link"
-                  :to="`/coursedashboard/${course.courseid}`"
+                  :to="`/course/${course.courseid}`"
                   ><button @click="onGotoCourse(course)" class="btn btn-info">
                     Go to course
                   </button></router-link
