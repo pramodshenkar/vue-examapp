@@ -2,16 +2,15 @@
   <div>
     <div class="row"></div>
     <div class="row">
-      <!-- <p>{{answerArray}}</p> -->
       <div class="col-3">
         <div v-for="(question, i) in questions" :key="question">
-          <button @click="getQuestion(question,i)" class="btn btn-info m-1">
+          <button @click="getQuestion(question, i)" class="btn btn-info m-1">
             Question {{ i + 1 }}
           </button>
         </div>
         <hr />
         <div>
-          <button @click="onEndExamClicked" class="btn btn-dark">
+          <button @click="$router.push('/dashboard')" class="btn btn-dark">
             End Exam
           </button>
         </div>
@@ -35,11 +34,9 @@
                       class="form-check-input"
                       name="option"
                       :value="option.optionid"
-                      :checked="option.optionid==answerArray[currentQuestionNumber]"
-                      v-model="answer"
+                      v-model="answerArray[currentQuestionNumber]"
                     />
                     {{ option.optiontext }}
-                    {{option.optionid==answerArray[currentQuestionNumber]}}
                   </label>
                 </div>
               </div>
@@ -71,15 +68,14 @@
 import { mapState } from "vuex";
 import axios from "axios";
 
-// import store from "./../store/store";
 export default {
   data() {
     return {
       questions: [],
       currentQuestion: {},
       currentQuestionNumber: 0,
-      answer: "",
-      answerArray:[]
+      answer: "opt1_qazqaz",
+      answerArray: [],
     };
   },
   computed: {
@@ -91,18 +87,21 @@ export default {
   },
   watch: {
     answer() {
-      if(this.answer !=false){
-      this.answerArray[this.currentQuestionNumber]=this.answer;
+      if (this.answer != false) {
+        this.answerArray[this.currentQuestionNumber] = this.answer;
       }
     },
   },
   beforeMount() {
     this.getQuestionsList()
       .then(() => {
-        this.getQuestion(this.questions[this.currentQuestionNumber],this.currentQuestionNumber);
+        this.getQuestion(
+          this.questions[this.currentQuestionNumber],
+          this.currentQuestionNumber
+        );
       })
       .catch((error) => {
-        console.log(error.message);
+        alert(error.message);
       });
   },
   beforeRouteLeave(to, from, next) {
@@ -131,17 +130,14 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             this.questions = response.data.questions;
-            // this.reports.push(response.data.examreport);
           }
         })
         .catch((error) => {
-          console.log(error);
           alert(error.response.data.message);
         });
     },
-    getQuestion(questionid,questionno) {
-      this.currentQuestionNumber = questionno
-      console.log(this.currentQuestionNumber)
+    getQuestion(questionid, questionno) {
+      this.currentQuestionNumber = questionno;
       axios
         .post("http://localhost:5000/question", {
           courseid: this.currentCourse.courseid,
@@ -153,7 +149,6 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
           alert(error.response.data.message);
         });
     },
@@ -169,17 +164,13 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             if (response.data.SubmitAnswer) {
-              console.log("Answer Saved");
+              alert("Answer Saved");
             } else {
-              console.log("Cant save answer");
+              alert("Cant save answer");
             }
-            console.log(this.answer)
-            // this.answerArray.push(this.answer)
-            console.log("----",this.answerArray)
           }
         })
         .catch((error) => {
-          console.log(error);
           alert(error.response.data.message);
         });
     },
@@ -192,7 +183,7 @@ export default {
         })
         .then((response) => {
           if (response.status == 200) {
-            console.log("exam ended");
+            alert("exam ended");
             this.$router.go(-1);
           }
         })
@@ -207,7 +198,10 @@ export default {
       } else {
         this.currentQuestionNumber = this.questions.length - 1;
       }
-      this.getQuestion(this.questions[this.currentQuestionNumber],this.currentQuestionNumber);
+      this.getQuestion(
+        this.questions[this.currentQuestionNumber],
+        this.currentQuestionNumber
+      );
       this.answer = false;
     },
     onNextClicked() {
@@ -216,7 +210,10 @@ export default {
       } else {
         this.currentQuestionNumber = 0;
       }
-      this.getQuestion(this.questions[this.currentQuestionNumber],this.currentQuestionNumber);
+      this.getQuestion(
+        this.questions[this.currentQuestionNumber],
+        this.currentQuestionNumber
+      );
       this.answer = false;
     },
     onSubmitClicked(questionid) {
