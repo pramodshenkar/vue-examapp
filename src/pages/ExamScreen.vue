@@ -2,9 +2,10 @@
   <div>
     <div class="row"></div>
     <div class="row">
+      <!-- <p>{{answerArray}}</p> -->
       <div class="col-3">
         <div v-for="(question, i) in questions" :key="question">
-          <button @click="getQuestion(question)" class="btn btn-info m-1">
+          <button @click="getQuestion(question,i)" class="btn btn-info m-1">
             Question {{ i + 1 }}
           </button>
         </div>
@@ -34,9 +35,11 @@
                       class="form-check-input"
                       name="option"
                       :value="option.optionid"
+                      :checked="option.optionid==answerArray[currentQuestionNumber]"
                       v-model="answer"
                     />
                     {{ option.optiontext }}
+                    {{option.optionid==answerArray[currentQuestionNumber]}}
                   </label>
                 </div>
               </div>
@@ -76,6 +79,7 @@ export default {
       currentQuestion: {},
       currentQuestionNumber: 0,
       answer: "",
+      answerArray:[]
     };
   },
   computed: {
@@ -85,10 +89,17 @@ export default {
       currentCourse: (state) => state.course.currentCourse,
     }),
   },
+  watch: {
+    answer() {
+      if(this.answer !=false){
+      this.answerArray[this.currentQuestionNumber]=this.answer;
+      }
+    },
+  },
   beforeMount() {
     this.getQuestionsList()
       .then(() => {
-        this.getQuestion(this.questions[this.currentQuestionNumber]);
+        this.getQuestion(this.questions[this.currentQuestionNumber],this.currentQuestionNumber);
       })
       .catch((error) => {
         console.log(error.message);
@@ -125,10 +136,12 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          alert("There was an error to fetch courses");
+          alert(error.response.data.message);
         });
     },
-    getQuestion(questionid) {
+    getQuestion(questionid,questionno) {
+      this.currentQuestionNumber = questionno
+      console.log(this.currentQuestionNumber)
       axios
         .post("http://localhost:5000/question", {
           courseid: this.currentCourse.courseid,
@@ -141,7 +154,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          alert("There was an error to fetch courses");
+          alert(error.response.data.message);
         });
     },
     onSubmitAnswer(questionid) {
@@ -160,11 +173,14 @@ export default {
             } else {
               console.log("Cant save answer");
             }
+            console.log(this.answer)
+            // this.answerArray.push(this.answer)
+            console.log("----",this.answerArray)
           }
         })
         .catch((error) => {
           console.log(error);
-          alert("There was an error to fetch courses");
+          alert(error.response.data.message);
         });
     },
     async onEndExamClicked() {
@@ -181,8 +197,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
-          alert("There was an error to fetch courses");
+          alert(error.response.data.message);
         });
     },
 
@@ -192,7 +207,7 @@ export default {
       } else {
         this.currentQuestionNumber = this.questions.length - 1;
       }
-      this.getQuestion(this.questions[this.currentQuestionNumber]);
+      this.getQuestion(this.questions[this.currentQuestionNumber],this.currentQuestionNumber);
       this.answer = false;
     },
     onNextClicked() {
@@ -201,7 +216,7 @@ export default {
       } else {
         this.currentQuestionNumber = 0;
       }
-      this.getQuestion(this.questions[this.currentQuestionNumber]);
+      this.getQuestion(this.questions[this.currentQuestionNumber],this.currentQuestionNumber);
       this.answer = false;
     },
     onSubmitClicked(questionid) {

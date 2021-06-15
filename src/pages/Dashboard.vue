@@ -10,12 +10,14 @@
         <p>Welcome {{ student.name }}</p>
       </div>
     </div>
+    <div class="row">
+    </div>
 
     <div class="row">
       <div v-for="course in courses" :key="course.courseid">
         <div class="col">
           <div class="card">
-            <h5 class="card-header">{{ course.courseid }}</h5>
+            <h5 class="card-header">{{ course.coursename }}</h5>
             <div class="card-body">
               <div class="card-text">
                 <!-- <router-link class="nav-item nav-link" :to="`/coursedashboard/${course.courseid}`"><button class="btn btn-info">Go to course</button></router-link> -->

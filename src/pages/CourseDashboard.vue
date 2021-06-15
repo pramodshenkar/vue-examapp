@@ -1,14 +1,14 @@
 <template>
   <div>
-    <!-- <p>{{ course }}</p> -->
+    <!-- <p>{{ course.exams }}</p> -->
 
     <!-- <p>{{ student }}</p> -->
 
     <!-- <p>{{ course.exams.length }}</p> -->
 
-    <p v-for="report in reports" :key="report.examid">
-      <!-- {{ report }} -->
-    </p>
+    <!-- <p v-for="report in reports" :key="report.examid">
+      {{ report }}
+    </p> -->
 
     <div class="row">
       <div v-for="report in reports" :key="report.examid">
@@ -73,7 +73,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          alert("There was an error to fetch courses");
+          alert(error.response.data.message);
         });
     },
 
@@ -97,8 +97,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
-          alert("There was an error to fetch courses");
+          alert(error.response.data.message);
         });
     },
 

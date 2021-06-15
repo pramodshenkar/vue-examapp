@@ -13,7 +13,7 @@ export default {
       })
       .catch((error) => {
         console.log(error);
-        alert("There was an error to fetch courses");
+        alert(error.response.data.message);
       });
   },
   // async getReport(context,payload) {

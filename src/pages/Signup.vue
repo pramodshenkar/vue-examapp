@@ -151,7 +151,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          alert("There was an error!");
+          alert(error.response.data.message);
         });
     },
     getCourse() {
@@ -164,7 +164,7 @@ export default {
       })
       .catch((error) => {
         console.log(error);
-        alert("There was an error to fetch courses");
+          alert(error.response.data.message);
       });
   }
   },
