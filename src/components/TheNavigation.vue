@@ -47,11 +47,11 @@ export default {
   methods: {
     onLogout() {
       store.commit("student/clearStudent");
+      store.commit("student/clearToken");
       store.commit("course/clearCourses");
       store.commit("course/clearcurrentCourse");
       store.commit("report/clearReport");
       this.$router.push("/login");
-      console.log(this.student);
     },
   },
 };

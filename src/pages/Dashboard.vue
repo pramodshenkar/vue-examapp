@@ -3,6 +3,7 @@
     <div class="row">
       <div class="col">
         <h1><b>Dashboard</b></h1>
+        <p> token is : {{token}}</p>
       </div>
     </div>
     <div class="row mt-4">
@@ -10,13 +11,12 @@
         <p>Here are courses you picked!!!</p>
       </div>
     </div>
-    <div class="row">
-    </div>
+    <div class="row"></div>
 
     <div class="row">
       <div v-for="course in courses" :key="course.courseid">
         <div class="col">
-          <div class="card ">
+          <div class="card">
             <h5 class="card-header">{{ course.coursename }}</h5>
             <div class="card-body">
               <div class="card-text">
@@ -48,6 +48,7 @@ export default {
   computed: {
     ...mapState({
       student: (state) => state.student.student,
+      token : (state) => state.student.token,
       courses: (state) => state.course.courses,
     }),
   },
@@ -61,7 +62,6 @@ export default {
     onGotoCourse(course) {
       store.commit("course/setCurrentCourse", { currentCourse: course });
     },
-    
   },
 };
 </script>

@@ -8,6 +8,7 @@ const studentModule = {
     state() {
         return {
             student: null,
+            token:""
         }   
     },
     getters: getters,

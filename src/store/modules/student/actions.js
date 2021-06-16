@@ -3,11 +3,12 @@ import router from './../../../routes'
 
 export default {
   async login(context, payload) {
-        axios
+        await axios
         .post("http://localhost:5000/student/login", payload.credentials)
         .then((response) => {
           if (response.status == 200) {
-            context.commit('setStudent',{student:response.data.student})
+            context.commit('setStudent',{student:response.data.result.student})
+            context.commit('setToken',{token:response.data.result.token})
             alert("Successfully Logged In.");
             router.push("/dashboard");
           }
