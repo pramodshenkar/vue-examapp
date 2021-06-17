@@ -6,8 +6,11 @@
       </div>
     </div>
     <div class="row mt-4">
-      <div class="col-md-12 mb-4">
+      <div class="col-6 mb-4">
         <p>Here are courses you picked!!!</p>
+      </div>
+      <div class="col-6">
+        <button @click="onButtonClick" class="btn btn-info">CALL API</button>
       </div>
     </div>
     <div class="row"></div>
@@ -39,6 +42,8 @@
 <script>
 import { mapState } from "vuex";
 import store from "./../store/store";
+import axios from "axios";
+
 export default {
   data() {
     return {};
@@ -46,7 +51,7 @@ export default {
   computed: {
     ...mapState({
       student: (state) => state.student.student,
-      token : (state) => state.student.token,
+      token: (state) => state.student.token,
       courses: (state) => state.course.courses,
     }),
   },
@@ -59,6 +64,29 @@ export default {
     },
     onGotoCourse(course) {
       store.commit("course/setCurrentCourse", { currentCourse: course });
+    },
+    onButtonClick() {
+      axios
+        .post(
+          "http://localhost:5000/hello",
+          {
+            name: this.student.name,
+          },
+          {
+            headers: {
+              Authorization: this.token,
+            },
+          }
+        )
+        .then((response) => {
+          if (response.status == 200) {
+            alert(response.data.message);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          alert(error.response.data.message);
+        });
     },
   },
 };
