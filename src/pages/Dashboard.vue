@@ -3,7 +3,6 @@
     <div class="row">
       <div class="col">
         <h1><b>Dashboard</b></h1>
-        <p> token is : {{token}}</p>
       </div>
     </div>
     <div class="row mt-4">
@@ -20,7 +19,6 @@
             <h5 class="card-header">{{ course.coursename }}</h5>
             <div class="card-body">
               <div class="card-text">
-                <!-- <router-link class="nav-item nav-link" :to="`/course/${course.courseid}`"><button class="btn btn-info">Go to course</button></router-link> -->
                 <router-link
                   class="nav-item nav-link"
                   :to="`/course/${course.courseid}`"
