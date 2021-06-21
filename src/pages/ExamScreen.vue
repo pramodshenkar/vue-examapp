@@ -6,7 +6,9 @@
         <div v-for="(question, i) in questions" :key="question">
           <a @click="getQuestion(question, i)"> Question {{ i + 1 }} </a>
         </div>
-        <a class="active btn-info" @click="$router.push('/dashboard')"> End Exam </a>
+        <a class="active btn-info" @click="$router.push('/dashboard')">
+          End Exam
+        </a>
       </div>
 
       <!-- Page content -->
@@ -16,6 +18,7 @@
             <div class="card-header">
               Q{{ currentQuestionNumber + 1 }}.
               {{ currentQuestion.questiontext }}
+              <div v-html="renderMedia()"></div>
             </div>
             <div class="card-body">
               <div class="card-text ml-4">
@@ -216,6 +219,23 @@ export default {
     onSubmitClicked(questionid) {
       this.onSubmitAnswer(questionid);
       this.onNextClicked();
+    },
+    renderMedia() {
+      if (this.currentQuestion.filetype == "image") {
+        return '<img :src="' + this.currentQuestion.mediapath + '">'
+      } else if (this.currentQuestion.filetype == "audio") {
+        return (
+          '<audio controls src="' +
+          this.currentQuestion.mediapath +
+          '">Your browser does not support the<code>audio</code> element</audio>'
+        );
+      } else if (this.currentQuestion.filetype == "video") {
+        return (
+          '<video controls width="250"><source src="' +
+          this.currentQuestion.mediapath +
+          '" type="video/mp4"> Sorry, your browser doesnt support embedded videos. </video>'
+        );
+      }
     },
   },
 };
