@@ -30,11 +30,20 @@
                   <div class="form-check m-1">
                     <label class="form-check-label">
                       <input
-                        type="radio"
+                        v-if="currentQuestion.questiontype == 'mcq-multianswer'"
+                        type="checkbox"
                         class="form-check-input"
                         name="option"
                         :value="option.optionid"
-                        v-model="answerArray[currentQuestionNumber]"
+                        v-model="answers[currentQuestionNumber]"
+                      />
+                      <input
+                        v-else
+                        type="radio"
+                        class="form-check-input"
+                        name="option"
+                        :value="[option.optionid]"
+                        v-model="answers[currentQuestionNumber]"
                       />
                       {{ option.optiontext }}
                     </label>
@@ -75,8 +84,8 @@ export default {
       questions: [],
       currentQuestion: {},
       currentQuestionNumber: 0,
-      answer: "opt1_qazqaz",
-      answerArray: [],
+      answers: [],
+
     };
   },
   computed: {
@@ -86,13 +95,6 @@ export default {
       currentCourse: (state) => state.course.currentCourse,
     }),
   },
-  watch: {
-    answer() {
-      if (this.answer != false) {
-        this.answerArray[this.currentQuestionNumber] = this.answer;
-      }
-    },
-  },
   beforeMount() {
     this.getQuestionsList()
       .then(() => {
@@ -100,6 +102,8 @@ export default {
           this.questions[this.currentQuestionNumber],
           this.currentQuestionNumber
         );
+        this.initializeAnswers()
+
       })
       .catch((error) => {
         alert(error.message);
@@ -153,15 +157,21 @@ export default {
           alert(error.response.data.message);
         });
     },
+
+    initializeAnswers(){
+      this.answers = new Array(this.questions.length).fill([]);
+    },
+
     onSubmitAnswer(questionid) {
-      // console.log("studentid : ",this.student.studentid,"\ncourseid : ",this.currentCourse.courseid,"\nexamid :",this.$route.params.examid,"\nquestionid : ",questionid,"\nanswer : ",this.answerArray[this.currentQuestionNumber])
+      // console.table("studentid : ",this.student.studentid,"\ncourseid : ",this.currentCourse.courseid,"\nexamid :",this.$route.params.examid,"\nquestionid : ",questionid,"\nanswer : ",this.answers[this.currentQuestionNumber])
+      // console.log(this.answers[this.currentQuestionNumber]);
       axios
         .post("http://localhost:5000/submitanswer", {
           studentid: this.student.studentid,
           courseid: this.currentCourse.courseid,
           examid: this.$route.params.examid,
           questionid: questionid,
-          answerid: this.answerArray[this.currentQuestionNumber],
+          answerid: this.answers[this.currentQuestionNumber],
         })
         .then((response) => {
           if (response.status == 200) {
@@ -202,7 +212,6 @@ export default {
         this.questions[this.currentQuestionNumber],
         this.currentQuestionNumber
       );
-      this.answer = false;
     },
     onNextClicked() {
       if (this.currentQuestionNumber != this.questions.length - 1) {
@@ -214,7 +223,6 @@ export default {
         this.questions[this.currentQuestionNumber],
         this.currentQuestionNumber
       );
-      this.answer = false;
     },
     onSubmitClicked(questionid) {
       this.onSubmitAnswer(questionid);
@@ -222,7 +230,7 @@ export default {
     },
     renderMedia() {
       if (this.currentQuestion.filetype == "image") {
-        return '<img :src="' + this.currentQuestion.mediapath + '">'
+        return '<img :src="' + this.currentQuestion.mediapath + '">';
       } else if (this.currentQuestion.filetype == "audio") {
         return (
           '<audio controls src="' +
