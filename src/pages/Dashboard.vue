@@ -66,21 +66,18 @@ export default {
       store.commit("course/setCurrentCourse", { currentCourse: course });
     },
     onButtonClick() {
-      axios
-        .post(
-          "http://localhost:5000/hello",
-          {
-            name: this.student.name,
-          },
+     axios
+        .post("http://localhost:5000/dashboard",
+          {},
           {
             headers: {
-              Authorization: this.token,
-            },
+              Authorization: this.token
+            }
           }
         )
         .then((response) => {
           if (response.status == 200) {
-            alert(response.data.message);
+            alert(this.token);
           }
         })
         .catch((error) => {
