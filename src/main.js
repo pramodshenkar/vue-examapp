@@ -5,6 +5,7 @@ import store from './store/store'
 
 Vue.config.productionTip = false
 
+export const BASEURL = 'http://127.0.0.1:8887'
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {

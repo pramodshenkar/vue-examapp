@@ -77,6 +77,7 @@
 <script>
 import { mapState } from "vuex";
 import axios from "axios";
+import { BASEURL } from "./../main"
 
 export default {
   data() {
@@ -85,7 +86,6 @@ export default {
       currentQuestion: {},
       currentQuestionNumber: 0,
       answers: [],
-
     };
   },
   computed: {
@@ -230,16 +230,17 @@ export default {
     },
     renderMedia() {
       if (this.currentQuestion.filetype == "image") {
-        return '<img :src="' + this.currentQuestion.mediapath + '">';
+        return '<img src="'+ BASEURL + this.currentQuestion.mediapath + '">';
+
       } else if (this.currentQuestion.filetype == "audio") {
         return (
-          '<audio controls src="' +
+          '<audio controls src="' + BASEURL +
           this.currentQuestion.mediapath +
           '">Your browser does not support the<code>audio</code> element</audio>'
         );
       } else if (this.currentQuestion.filetype == "video") {
         return (
-          '<video controls width="250"><source src="' +
+          '<video controls width="250"><source src="' + BASEURL +
           this.currentQuestion.mediapath +
           '" type="video/mp4"> Sorry, your browser doesnt support embedded videos. </video>'
         );
