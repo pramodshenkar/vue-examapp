@@ -4,7 +4,7 @@
       <!-- The sidebar -->
       <div class="sidebar">
         <div v-for="(question, i) in questions" :key="question">
-          <a @click="getQuestion(question, i)"> Question {{ i + 1 }} </a>
+          <a @click="getQuestionByIndex(i)"> Question {{ i + 1 }} </a>
         </div>
         <a class="active btn-info" @click="$router.push('/dashboard')">
           End Exam
@@ -16,8 +16,9 @@
         <div class="col-*">
           <div class="card">
             <div class="card-header">
+
               Q{{ currentQuestionNumber + 1 }}.
-              {{ currentQuestion.questiontext }}
+              {{currentQuestion.questiontext}}
               <div v-html="renderMedia()"></div>
             </div>
             <div class="card-body">
@@ -76,39 +77,30 @@
 
 <script>
 import { mapState } from "vuex";
-import axios from "axios";
+// import axios from "axios";
 import { BASEURL } from "./../main"
 
 export default {
   data() {
     return {
-      questions: [],
+      questions: ["A","B","C","D","E"],
       currentQuestion: {},
       currentQuestionNumber: 0,
       answers: [],
+      totalquestions : 5,
     };
   },
   computed: {
     ...mapState({
       student: (state) => state.student.student,
-      report: (state) => state.report.report,
       currentCourse: (state) => state.course.currentCourse,
     }),
   },
-  beforeMount() {
-    this.getQuestionsList()
-      .then(() => {
-        this.getQuestion(
-          this.questions[this.currentQuestionNumber],
-          this.currentQuestionNumber
-        );
-        this.initializeAnswers()
-
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+  mounted() {
+      this.initializeAnswers()
+      this.getQuestion()
   },
+
   beforeRouteLeave(to, from, next) {
     const answer = window.confirm(
       "Do you really want to leave? Exam will be get submitted!"
@@ -125,109 +117,95 @@ export default {
       next(false);
     }
   },
+
   methods: {
-    async getQuestionsList() {
-      await axios
-        .post("http://localhost:5000/questions", {
-          courseid: this.currentCourse.courseid,
-          examid: this.$route.params.examid,
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            this.questions = response.data.questions;
-          }
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
-    },
-    getQuestion(questionid, questionno) {
-      this.currentQuestionNumber = questionno;
-      axios
-        .post("http://localhost:5000/question", {
-          courseid: this.currentCourse.courseid,
-          questionid: questionid,
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            this.currentQuestion = response.data.question;
-          }
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
-    },
 
     initializeAnswers(){
-      this.answers = new Array(this.questions.length).fill([]);
+      this.answers = new Array(this.totalquestions).fill([]);
     },
 
-    onSubmitAnswer(questionid) {
+
+    getQuestion() {
+      this.currentQuestion = this.student.courses[this.$route.params.courseid].exams[this.$route.params.examid].questions[this.currentQuestionNumber]
+    },
+
+    getQuestionByIndex(index){
+      this.currentQuestionNumber = index;
+      this.currentQuestion = this.student.courses[this.$route.params.courseid].exams[this.$route.params.examid].questions[index]
+    },
+
+
+    initailizeQuestionList(){
+      this.totalquestions = this.student.courses[this.$route.params.courseid].exams[this.$route.params.examid].questions[this.currentQuestionNumber].length
+      console.log("initailizeQuestionList : ",this.totalquestions)
+    },
+
+    onSubmitAnswer() {
       // console.table("studentid : ",this.student.studentid,"\ncourseid : ",this.currentCourse.courseid,"\nexamid :",this.$route.params.examid,"\nquestionid : ",questionid,"\nanswer : ",this.answers[this.currentQuestionNumber])
       // console.log(this.answers[this.currentQuestionNumber]);
-      axios
-        .post("http://localhost:5000/submitanswer", {
-          studentid: this.student.studentid,
-          courseid: this.currentCourse.courseid,
-          examid: this.$route.params.examid,
-          questionid: questionid,
-          answerid: this.answers[this.currentQuestionNumber],
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            if (!response.data.SubmitAnswer) {
-              alert("Cant save answer");
-            }
-          }
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
+      // axios
+      //   .post("http://localhost:5000/submitanswer", {
+      //     studentid: this.student.studentid,
+      //     courseid: this.currentCourse.courseid,
+      //     examid: this.$route.params.examid,
+      //     questionid: questionid,
+      //     answerid: this.answers[this.currentQuestionNumber],
+      //   })
+      //   .then((response) => {
+      //     if (response.status == 200) {
+      //       if (!response.data.SubmitAnswer) {
+      //         alert("Cant save answer");
+      //       }
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     alert(error.response.data.message);
+      //   });
     },
     async onEndExamClicked() {
-      await axios
-        .post("http://localhost:5000/endexam", {
-          studentid: this.student.studentid,
-          courseid: this.currentCourse.courseid,
-          examid: this.$route.params.examid,
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            alert("exam ended");
-            this.$router.go(-1);
-          }
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
+      // await axios
+      //   .post("http://localhost:5000/endexam", {
+      //     studentid: this.student.studentid,
+      //     courseid: this.currentCourse.courseid,
+      //     examid: this.$route.params.examid,
+      //   })
+      //   .then((response) => {
+      //     if (response.status == 200) {
+      //       alert("exam ended");
+      //       this.$router.go(-1);
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     alert(error.response.data.message);
+      //   });
     },
 
     onPreviousClicked() {
       if (this.currentQuestionNumber != 0) {
         this.currentQuestionNumber = this.currentQuestionNumber - 1;
       } else {
-        this.currentQuestionNumber = this.questions.length - 1;
+        this.currentQuestionNumber = this.totalquestions - 1;
       }
-      this.getQuestion(
-        this.questions[this.currentQuestionNumber],
-        this.currentQuestionNumber
-      );
+      console.log(this.currentQuestionNumber)
+      this.getQuestion()
     },
+
     onNextClicked() {
-      if (this.currentQuestionNumber != this.questions.length - 1) {
+      if (this.currentQuestionNumber != this.totalquestions - 1) {
         this.currentQuestionNumber = this.currentQuestionNumber + 1;
       } else {
         this.currentQuestionNumber = 0;
       }
-      this.getQuestion(
-        this.questions[this.currentQuestionNumber],
-        this.currentQuestionNumber
-      );
+            console.log(this.currentQuestionNumber)
+
+      this.getQuestion()
     },
+
     onSubmitClicked(questionid) {
       this.onSubmitAnswer(questionid);
       this.onNextClicked();
     },
+    
     renderMedia() {
       if (this.currentQuestion.filetype == "image") {
         return '<img src="'+ BASEURL + this.currentQuestion.mediapath + '">';

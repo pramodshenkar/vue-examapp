@@ -3,6 +3,8 @@ export default {
         context.courses = payload.courses;
     },
     setCurrentCourse(context, payload) {
+        console.log("setting currentCourse")
+        console.log(context,payload)
         context.currentCourse = payload.currentCourse;
     },
     clearCourses(context) {
@@ -10,6 +12,5 @@ export default {
     },
     clearcurrentCourse(context) {
         context.currentCourse = {}
-    },
-    
+    },   
 }

@@ -55,7 +55,7 @@ const routes = [
         }
     },
     {
-        path: '/exam/:examid',
+        path: '/course/:courseid/:examid',
         name: 'ExamScreen',
         component: ExamScreen,
         meta: { requiresAuth: true },

@@ -5,7 +5,7 @@
         <ul v-if="student" class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item nav-link">
             <router-link class="nav-item nav-link" to="/dashboard"
-              ><b>Welcome {{ student.name }}</b></router-link
+              ><b>Welcome {{ student.learnername }}</b></router-link
             >
           </li>
         </ul>

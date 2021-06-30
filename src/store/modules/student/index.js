@@ -7,7 +7,7 @@ const studentModule = {
     namespaced: true,
     state() {
         return {
-            student: null,
+            student: {},
             token:""
         }   
     },

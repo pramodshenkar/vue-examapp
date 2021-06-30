@@ -16,12 +16,12 @@
                       required
                     />
                 </div>
-                <!-- name -->
+                <!-- learnername -->
                 <div class="form-group row">
                     <input
                       type="text"
                       class="form-control"
-                      v-model="student.name"
+                      v-model="student.learnername"
                       placeholder="Name"
                       required
                     />
@@ -41,7 +41,7 @@
                     <select
                       class="custom-select"
                       aria-label="Default select example"
-                      v-model="courseid"
+                      v-model="course"
                       placeholder="as"
                       required
                     >
@@ -50,7 +50,7 @@
                       <option
                         v-for="course in courses"
                         :key="course.id"
-                        :value="course.courseid"
+                        :value="course"
                       >
                         {{ course.coursename }}
                       </option>
@@ -112,33 +112,31 @@ export default {
   data() {
     return {
       student: {
-        email: "parmod@mail.com",
-        name: "Pramod",
+        learnername: "Pramod",
         username: "pramods11",
-        college: "AVCOE",
-        courses: [],
         password: "111",
         confirmPassword: "111",
+        college: "AVCOE",
+        email: "parmod@mail.com",
+        courses: [],
       },
       courses: [],
-      courseid: "",
+      course: {},
     };
   },
   watch: {
-    courseid() {
-      this.student.courses.push(this.courseid);
+    course() {
+      this.student.courses[0] = this.course;
     },
   },
   mounted() {
     this.getCourse();
   },
   methods: {
-    //  ...mapActions({
-    //   getCourse : 'course/getCourse'
-    // }),
     onSignup() {
+      console.log(this.student.courses)
       axios
-        .post("http://localhost:5000/student/signup", this.student)
+        .post("http://localhost:5000/signup", this.student)
         .then((response) => {
           this.response = response;
           if (this.response.status == 200) {

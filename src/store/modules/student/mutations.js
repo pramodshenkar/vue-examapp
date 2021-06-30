@@ -1,6 +1,8 @@
 
 export default {
   setStudent(context, payload) {
+    console.log("SetStudent called")
+    console.log(context,payload)
     context.student = payload.student
   },
   clearStudent(context) {
